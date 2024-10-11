@@ -3,10 +3,10 @@ dash-core-components==0.43.0
 dash-html-components==0.13.5
 dash-renderer==0.17.0
 gunicorn==19.9.0
-numpy==1.26.0
+numpy==2.2.0
 pandas==2.2.3
 plotly==2.2.2
-scikit-learn==0.18.1
+scikit-learn==1.5.2
 scipy==1.14.1
 search-google==1.2.1
 requests==2.20.0
