@@ -36,7 +36,7 @@ from dash.dependencies import Input, Output, State
 morph_api_url = "https://api.morph.io/jasonchanhku/ufc_fighters_db/data.json"
 
 # Keep this key secret!
-morph_api_key = <6Q/6fw7ye0Sle343bZvo>
+morph_api_key = <>
 
 r = requests.get(morph_api_url, params={
   'key': morph_api_key,
