@@ -672,11 +672,11 @@ def update_f1_proba(n_clicks, f1, f2, f1_odds, f2_odds):
         prediction = predict_outcome(delta_stats)
         prob_f1 = prediction[0][1]  # Probability Fighter 1 wins
 
-        return f"{f1}: {prob_f1:.2%} chance of winning"
-    except Exception as e:
-        return f"Error: {str(e)}"
-        
-     def calculate_odds(f1_odds, f2_odds, f2, prob_f2):
+            return f"{f1}: {prob_f1:.2%} chance of winning"
+except Exception as e:
+    return f"Error: {str(e)}"
+
+def calculate_odds(f1_odds, f2_odds, f2, prob_f2):
     # Validate decimal odds
     if f1_odds < 0 or f2_odds < 0:
         return "decimal odds must be positive"
