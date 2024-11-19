@@ -716,16 +716,17 @@ def update_f2_proba(n_clicks, f1, f2, f1_odds, f2_odds):
         prediction = predict_outcome(delta_stats)
         prob_f2 = prediction[0][0]  # Probability Fighter 2 wins
 
+def calculate_odds(f1_odds, f2_odds, prob_f2):
+    try:
         return f"{f2}: {prob_f2:.2%} chance of winning"
     except Exception as e:
         return f"Error: {str(e)}"
-        else:
-            return "inputs must be decimal odds, not american odds"
-        
-        if f1_odds < 0 or f2_odds < 0:
-            return "decimal odds must be positive"
-        
-        
+
+    if f1_odds < 0 or f2_odds < 0:
+        return "decimal odds must be positive"
+
+    return "inputs must be decimal odds, not american odds"
+      
         
         # Error handling
         if f1_odds < f2_odds:
