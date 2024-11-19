@@ -648,29 +648,33 @@ def update_graph(f1, f2):
 @app.callback(
     Output('f1-proba', 'children'),
     [Input('button', 'n_clicks')],
-     state=[State('f1-fighter', 'value'),
-     State('f2-fighter', 'value'),
-     State('f1-odds', 'value'),
-     State('f2-odds', 'value')]
+    state=[
+        State('f1-fighter', 'value'),
+        State('f2-fighter', 'value'),
+        State('f1-odds', 'value'),
+        State('f2-odds', 'value')
+    ]
 )
-def update_f1_proba(nclicks, f1, f2, f1_odds, f2_odds):
+def update_f1_proba(n_clicks, f1, f2, f1_odds, f2_odds):
+    if n_clicks is None or not all([f1, f2, f1_odds, f2_odds]):
+        return "Click Predict"
+    
+    try:
+        # Fetch fighter stats
+        f1_stats = fights_db[fights_db['NAME'] == f1][best_cols].iloc[0].values
+        f2_stats = fights_db[fights_db['NAME'] == f2][best_cols].iloc[0].values
 
-    if nclicks > 0:
-        cols = ['SLPM', 'SAPM', 'STRD', 'TD']
-        y = fighters_db[fighters_db['NAME'] == f1][cols].append(
-            fighters_db[fighters_db['NAME'] == f2][cols], ignore_index=True)
-        
-        try:
-            float(f1_odds)
-            float(f2_odds)
-        except:
-            return "input not a numeric decimal"
-        
-        if '.' in f1_odds and '.' in f2_odds:
-            f1_odds = float(f1_odds)
-            f2_odds = float(f2_odds)
-        else:
-            return "inputs must be decimal odds, not american odds"
+        # Combine stats (you can customize this logic further)
+        delta_stats = f1_stats - f2_stats
+        delta_stats[-1] = float(f1_odds) - float(f2_odds)  # Adjust for odds difference
+
+        # Use the ML model for prediction
+        prediction = predict_outcome(delta_stats)
+        prob_f1 = prediction[0][1]  # Probability Fighter 1 wins
+
+        return f"{f1}: {prob_f1:.2%} chance of winning"
+    except Exception as e:
+        return f"Error: {str(e)}"
         
         if f1_odds < 0 or f2_odds < 0:
             return "decimal odds must be positive"
@@ -686,31 +690,35 @@ def update_f1_proba(nclicks, f1, f2, f1_odds, f2_odds):
 
 
 @app.callback(
-
     Output('f2-proba', 'children'),
     [Input('button', 'n_clicks')],
-     state=[State('f1-fighter', 'value'),
-     State('f2-fighter', 'value'),
-     State('f1-odds', 'value'),
-     State('f2-odds', 'value')]
-
+    state=[
+        State('f1-fighter', 'value'),
+        State('f2-fighter', 'value'),
+        State('f1-odds', 'value'),
+        State('f2-odds', 'value')
+    ]
 )
-def update_f2_proba(nclicks, f1, f2, f1_odds, f2_odds):
+def update_f2_proba(n_clicks, f1, f2, f1_odds, f2_odds):
+    if n_clicks is None or not all([f1, f2, f1_odds, f2_odds]):
+        return "Click Predict"
+    
+    try:
+        # Fetch fighter stats
+        f1_stats = fights_db[fights_db['NAME'] == f1][best_cols].iloc[0].values
+        f2_stats = fights_db[fights_db['NAME'] == f2][best_cols].iloc[0].values
 
-    if nclicks > 0:
-        cols = ['SLPM', 'SAPM', 'STRD', 'TD']
-        y = fighters_db[fighters_db['NAME'] == f1][cols].append(
-            fighters_db[fighters_db['NAME'] == f2][cols], ignore_index=True)
-        
-        try:
-            float(f1_odds)
-            float(f2_odds)
-        except:
-            return "input not a numeric decimal"
-        
-        if '.' in f1_odds and '.' in f2_odds:
-            f1_odds = float(f1_odds)
-            f2_odds = float(f2_odds)
+        # Combine stats
+        delta_stats = f1_stats - f2_stats
+        delta_stats[-1] = float(f1_odds) - float(f2_odds)
+
+        # Use the ML model for prediction
+        prediction = predict_outcome(delta_stats)
+        prob_f2 = prediction[0][0]  # Probability Fighter 2 wins
+
+        return f"{f2}: {prob_f2:.2%} chance of winning"
+    except Exception as e:
+        return f"Error: {str(e)}"
         else:
             return "inputs must be decimal odds, not american odds"
         
