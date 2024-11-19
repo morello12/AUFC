@@ -676,8 +676,20 @@ def update_f1_proba(n_clicks, f1, f2, f1_odds, f2_odds):
     except Exception as e:
         return f"Error: {str(e)}"
         
-        if f1_odds < 0 or f2_odds < 0:
-            return "decimal odds must be positive"
+     def calculate_odds(f1_odds, f2_odds, f2, prob_f2):
+    # Validate decimal odds
+    if f1_odds < 0 or f2_odds < 0:
+        return "decimal odds must be positive"
+
+    # Check if the inputs are valid decimal odds
+    if not (isinstance(f1_odds, (int, float)) and isinstance(f2_odds, (int, float))):
+        return "inputs must be decimal odds, not american odds"
+
+    # Try to compute the probability
+    try:
+        return f"{f2}: {prob_f2:.2%} chance of winning"
+    except Exception as e:
+        return f"Error: {str(e)}"
         
         # Error handling
         if f1_odds < f2_odds:
