@@ -678,6 +678,8 @@ def update_f1_proba(n_clicks, f1, f2, f1_odds, f2_odds):
         return f"{f1}: {prob_f1:.2%} chance of winning"
     except Exception as e:
         return f"Error: {str(e)}"
+    except Exception as e:
+        return f"Error: {str(e)}"
 except Exception as e:
     return f"Error: {str(e)}"
 
