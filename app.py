@@ -23,8 +23,8 @@ import plotly.graph_objs as go
 import requests
 # Libraries used for Section 2
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 import search_google.api
 from dash.dependencies import Input, Output, State
 
