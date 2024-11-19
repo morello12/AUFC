@@ -646,14 +646,12 @@ def update_graph(f1, f2):
 
 
 @app.callback(
-
     Output('f1-proba', 'children'),
     [Input('button', 'n_clicks')],
-     state=[State('f1-fighter', 'value'),
+    [State('f1-fighter', 'value'),
      State('f2-fighter', 'value'),
      State('f1-odds', 'value'),
      State('f2-odds', 'value')]
-
 )
 def update_f1_proba(nclicks, f1, f2, f1_odds, f2_odds):
 
